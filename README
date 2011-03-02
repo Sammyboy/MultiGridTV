@@ -1,0 +1,3 @@
+With this plugin, a template variable can be transformed in to a small table/grid. The number of columns and the column headers can be set in the plugin configuration. The number of rows can be modified during editing the MODX document. The table/grid is sortable.
+
+
