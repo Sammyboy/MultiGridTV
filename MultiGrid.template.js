@@ -4,7 +4,7 @@ var MultiGrid = new Class({
         var hpArr = (this.fid.value && this.fid.value != '[]') ? Json.evaluate(this.fid.value) : [null];
         this.fid.setStyle('display', 'none');
         this.box = new Element('table', {
-            'id': 'gridEditor'
+            'class': 'gridEditor'
         }).adopt(this.tr([
             [+headRow+], this.th('', ''), this.th('', '')
         ]));
@@ -113,8 +113,11 @@ var MultiGrid = new Class({
 });
 
 window.addEvent('domready', function(){
-    var fid = 'tv[+tvid+]';
-    if ($(fid) != null) {
-        var modxMultiGrid = new MultiGrid(fid);
+    var tvids = [+tvids+];
+    
+    Array.each(tvids, function(tvid){
+    if ($(tvid) != null) {
+        new MultiGrid(tvid);
     }
+    });
 });
