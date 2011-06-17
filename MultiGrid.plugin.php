@@ -3,7 +3,7 @@
  * MultiGrid
  *
  * @category 	plugin
- * @version 	1.1.2
+ * @version 	1.1.3
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  * based on a lot of code of Temus (temus3@gmail.com)
@@ -26,6 +26,9 @@ $columnNames = isset($columnNames) ? $columnNames : 'key,value';
 if (!class_exists('gridChunkie')) {
     include (MODX_BASE_PATH.'assets/plugins/multigrid/includes/chunkie.class.inc.php');
 }
+if (!class_exists('TransAlias')) {
+    include (MODX_BASE_PATH.'assets/plugins/transalias/transalias.class.php');
+}
 
 $columns = explode(',', $columnNames);
 $columnCount = count($columns);
@@ -41,10 +44,11 @@ $headRow = $bodyRow = $elements = $values = array();
 $i = 0;
 foreach ($columns as $column) {
 	$column = trim($column);
-	$columnStipped = $modx->stripAlias($column, 'lowercase alphanumeric', 'underscore');
-    $headRow[] = "this.th('".$column."', '".((!$i) ? 'first' : '')."')";
-    $bodyRow[] = "this.td(grid".$columnStipped.", '".((!$i) ? 'first' : '')."')";
-    $elements[] = "        var grid".$columnStipped." = new Element('input', {
+	$trans = new TransAlias($modx); 
+    $columnStripped = $trans->stripAlias($column, 'lowercase alphanumeric', 'underscore');
+    $headRow[] = "this.th('".$columnStripped."', '".((!$i) ? 'first' : '')."')";
+    $bodyRow[] = "this.td(grid".$columnStripped.", '".((!$i) ? 'first' : '')."')";
+    $elements[] = "        var grid".$columnStripped." = new Element('input', {
             'type': 'text',
             'class': 'gridVal',
             'value': values[".$i."],
