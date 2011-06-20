@@ -4,7 +4,7 @@ var MultiGrid = new Class({
         this.columnNames = columnNames;
         var hpArr = (this.fid.value && this.fid.value != '[]') ? Json.evaluate(this.fid.value) : [null];
         this.fid.setStyle('display', 'none');
-        /* headRow */
+        /* headRows */
         var headRow = new Array();
         for (i=0; i<this.columnNames.length; i++) {
             headRow[i] = this.th(this.columnNames[i], (i == 0) ? 'first' : '');
@@ -75,11 +75,10 @@ var MultiGrid = new Class({
                 values[i] = '';
             }
         }
-        /* elements */
+        /* bodyRows */
         var bodyRow = new Array();
-        var grid = new Array();
         for (var i=0; i<this.columnNames.length; i++) {
-            grid[i] = new Element('input', {
+            var grid = new Element('input', {
                 'type': 'text',
                 'class': 'gridVal',
                 'value': values[i],
@@ -90,7 +89,7 @@ var MultiGrid = new Class({
                     }.bind(this)
                 }
             });
-            bodyRow[i] = this.td(grid[i], (i == 0) ? 'first' : '');
+            bodyRow[i] = this.td(grid, (i == 0) ? 'first' : '');
         }
 
         var bAdd = new Element('input', {

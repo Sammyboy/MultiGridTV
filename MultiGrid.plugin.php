@@ -3,14 +3,14 @@
  * MultiGrid
  *
  * @category 	plugin
- * @version 	1.1.3
+ * @version 	1.1.4
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  * based on a lot of code of Temus (temus3@gmail.com)
+ * modified by sam (sam@gmx-topmail.de)
  *
  * @internal    @plugin code: include(MODX_BASE_PATH.'assets/plugins/multigrid/MultiGrid.plugin.php');
- * @internal	@properties: &tvids=TV IDs;text; &tpl=Template;text; &role=Role;text; &columnNames=Column Names;text;
- * @internal	@properties: &pluginPath=Plugin path:;text;assets/plugins/multigrid/
+ * @internal	@properties: &pluginPath=Plugin path:;text;assets/plugins/multigrid/ &tvids=TV IDs:;text; &tpl=Template IDs:;text; &roles=Roles:;text; &columnNames=Column Names:;text;key,value
  * @internal	@events: OnDocFormRender
  */
  
@@ -21,7 +21,21 @@ global $content,$default_template;
 
 if (!isset($pluginPath)) $pluginPath = 'assets/plugins/multigrid/';
 
-include MODX_BASE_PATH.$pluginPath."MultiGrid.config.php";
+if (!strlen($tvids)) include MODX_BASE_PATH.$pluginPath."MultiGrid.config.php";
+else {
+    $MGPC           = array();
+    $tvids          = explode("||", $tvids);
+    $tpl            = explode("||", $tpl);
+    $roles          = explode("||", $roles);
+    $columnNames    = explode("||", $columnNames);
+
+    foreach ($tvids as $i => $tvid) {
+        $MGPC[$i]['tv_id']          = intval(trim($tvid));
+        $MGPC[$i]['tpl_ids']        = isset($tpl[$i]) ? str_replace(" ", "", $tpl[$i]) : false;
+        $MGPC[$i]['roles']          = isset($roles[$i]) ? str_replace(" ", "", $roles[$i]) : false;
+        $MGPC[$i]['columnNames']    = isset($columnNames[$i]) ? str_replace(", ", ",", $columnNames[$i]) : "key,value";
+    }
+}
 
 if (!class_exists('gridChunkie')) {
     include (MODX_BASE_PATH.$pluginPath.'includes/chunkie.class.inc.php');
@@ -40,8 +54,7 @@ foreach ($MGPC as $opt_num => $option) {
     $tpl_ids            = $option['tpl_ids'] ? explode(",", $option['tpl_ids']) : false;
     $columns            = explode(',', $option['columnNames']);
     $columnCount        = count($columns);
-    
-    
+
     if (($tpl_ids && !in_array($curTpl, $tpl_ids)) || ($roles && !in_array($curRole, $roles))) return;
 
     foreach ($columns as $i => $column) {

@@ -7,7 +7,7 @@
 //
 //  ( = ̱Multi̱Grid ̱Plugin ̱Configuration)
 //
-//  @version    0.1.0
+//  @version    1.1.4
 //  @license    http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
 //  @author     sam (sam@gmx-topmail.de)
 //
@@ -17,11 +17,11 @@
 /*
 // Example:
 //==============================================================================
-// treeTV
+// MultiGridTV
 //==============================================================================
 $c = count($MGPC);
 
-$MGPC[$c]['input']['tv_id']            = 14;                          // ID of template variable to be used with the CSS ID is then treeBox_tv29
+$MGPC[$c]['input']['tv_id']            = 14;                            // ID of template variable to be used with the CSS ID is then treeBox_tv29
 $MGPC[$c]['input']['tpl_ids']          = "5";                           // ID of template used
 $MGPC[$c]['input']['role']             = false;                         // 1 = Administrator, 2 = Editor, 3 = Publisher
 $MGPC[$c]['input']['columnNames']      = "column1,column2,column3";     // Names of the columns
