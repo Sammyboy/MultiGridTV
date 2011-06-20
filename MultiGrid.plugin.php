@@ -10,7 +10,7 @@
  * modified by sam (sam@gmx-topmail.de)
  *
  * @internal    @plugin code: include(MODX_BASE_PATH.'assets/plugins/multigrid/MultiGrid.plugin.php');
- * @internal	@properties: &pluginPath=Plugin path:;text;assets/plugins/multigrid/ &tvids=TV IDs:;text; &tpl=Template IDs:;text; &roles=Roles:;text; &columnNames=Column Names:;text;key,value
+ * @internal	@properties: &tvids=TV IDs:;text; &tpl=Template IDs:;text; &roles=Roles:;text; &columnNames=Column Names:;text;key,value
  * @internal	@events: OnDocFormRender
  */
  

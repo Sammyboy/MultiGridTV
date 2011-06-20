@@ -7,9 +7,15 @@ include(MODX_BASE_PATH.'assets/plugins/multigrid/MultiGrid.plugin.php');
 and the event OnDocFormRender.
 
 The plugin configuration can be set with the following line:
-&pluginPath=Plugin path:;text;assets/plugins/multigrid/
+&tvids=TV IDs;text; &tpl=Template;text; &role=Role;text; &columnNames=Column Names;text;
+(Optionally "&pluginPath=Plugin path:;text;assets/plugins/multigrid/" can be added)
 
-Edit the configuration file "MultiGrid.config.php":
+'TV IDs' is the id (or several || separated ids for each TV) of a textarea template variable, which will be transformed into a grid.
+'Template' is the id (or several comma separated ids) of a template the plugin is executed in. For multiple TVs use || to separate the ids (or lists) for each TV.
+'Role' is the id (or several comma separated ids) of a manager user who can use the plugin. For multiple TVs use || to separate the ids (or lists) for each TV.
+'Column Names' contains the comma separated column names of the generated table/grid. For multiple TVs use || to separate the lists of names for each TV.
+
+Alternatively edit the configuration file "MultiGrid.config.php":
 'tv_id' is the id of a textarea template variable, which will be transformed into a grid.
 'tpl_ids' is the id (or several comma separated ids) of a template the plugin is executed in.
 'role' is the id  (or several comma separated ids) of a manager user who can use the plugin.
