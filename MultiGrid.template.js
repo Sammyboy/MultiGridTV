@@ -74,6 +74,10 @@ var MultiGrid = new Class({
             for (var i=0; i<this.columnNames.length; i++) {
                 values[i] = '';
             }
+        } else if (values.length < this.columnNames.length) {
+            for (var i=values.length; i<this.columnNames.length; i++) {
+                values[i] = '';
+            }
         }
         /* bodyRows */
         var bodyRow = new Array();
