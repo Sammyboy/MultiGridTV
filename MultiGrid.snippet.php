@@ -19,6 +19,10 @@ $columnNames = isset($columnNames) ? $columnNames : 'key,value';
 $outerTpl = isset($outerTpl) ? $outerTpl : '@CODE:<select name="'.$tvName.'">[+wrapper+]</select>';
 $rowTpl = isset($rowTpl) ? $rowTpl : '@CODE:<option value="[+value+]">[+key+]</option>';
 
+$brackets = array('{+' => '[+', '+}' => '+]');
+$outerTpl = str_replace(array_keys($brackets), array_values($brackets), $outerTpl);
+$rowTpl = str_replace(array_keys($brackets), array_values($brackets), $rowTpl);
+
 $columns = explode(',', $columnNames);
 $columnCount = count($columns);
 $tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid);
@@ -45,6 +49,5 @@ foreach ($tvOutput as $value) {
 $parser = new gridChunkie($outerTpl);
 $parser->AddVar('wrapper', $wrapper);
 $output = $parser->Render();
-
 return $output;
 ?>

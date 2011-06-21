@@ -3,13 +3,14 @@
  * MultiGrid
  *
  * @category 	plugin
- * @version 	1.1.3
+ * @version 	1.1.4
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  * based on a lot of code of Temus (temus3@gmail.com)
+ * modified by sam (sam@gmx-topmail.de)
  *
  * @internal    @plugin code: include(MODX_BASE_PATH.'assets/plugins/multigrid/MultiGrid.plugin.php');
- * @internal	@properties: &tvids=TV IDs;text; &tpl=Template;text; &role=Role;text; &columnNames=Column Names;text;
+ * @internal	@properties: &tvids=TV IDs:;text; &tpl=Template IDs:;text; &roles=Roles:;text; &columnNames=Column Names:;text;key,value
  * @internal	@events: OnDocFormRender
  */
  
@@ -18,69 +19,64 @@ if (IN_MANAGER_MODE != 'true') {
 }
 global $content,$default_template;
 
-$tvids = isset($tvids) ? explode(',', $tvids) : array('1');
-$tpl = isset($tpl) ? explode(',', $tpl) : false;
-$role = isset($role) ? explode(',', $role) : false;
-$columnNames = isset($columnNames) ? $columnNames : 'key,value';
+if (!isset($pluginPath)) $pluginPath = 'assets/plugins/multigrid/';
+
+if (!strlen($tvids)) include MODX_BASE_PATH.$pluginPath."MultiGrid.config.php";
+else {
+    $MGPC           = array();
+    $tvids          = explode("||", $tvids);
+    $tpl            = explode("||", $tpl);
+    $roles          = explode("||", $roles);
+    $columnNames    = explode("||", $columnNames);
+
+    foreach ($tvids as $i => $tvid) {
+        $MGPC[$i]['tv_id']          = intval(trim($tvid));
+        $MGPC[$i]['tpl_ids']        = isset($tpl[$i]) ? str_replace(" ", "", $tpl[$i]) : false;
+        $MGPC[$i]['roles']          = isset($roles[$i]) ? str_replace(" ", "", $roles[$i]) : false;
+        $MGPC[$i]['columnNames']    = isset($columnNames[$i]) ? str_replace(", ", ",", $columnNames[$i]) : "key,value";
+    }
+}
 
 if (!class_exists('gridChunkie')) {
-    include (MODX_BASE_PATH.'assets/plugins/multigrid/includes/chunkie.class.inc.php');
+    include (MODX_BASE_PATH.$pluginPath.'includes/chunkie.class.inc.php');
 }
 if (!class_exists('TransAlias')) {
     include (MODX_BASE_PATH.'assets/plugins/transalias/transalias.class.php');
 }
 
-$columns = explode(',', $columnNames);
-$columnCount = count($columns);
 $curTpl = isset($_POST['template']) ? $_POST['template'] : isset($content['template']) ? $content['template'] : $default_template;
 $curRole = $_SESSION['mgrRole'];
-$tvids = "['tv".implode("', 'tv", $tvids)."']";
+$tvids = $columnNames = array();
 
-if (($tpl && !in_array($curTpl, $tpl)) || ($role && !in_array($curRole, $role))) {
-    return;
+foreach ($MGPC as $opt_num => $option) {
+    $tvids[$opt_num]    = "'tv".$option['tv_id']."'";
+    $roles              = $option['roles'] ? explode(",",$option['roles']) : false;
+    $tpl_ids            = $option['tpl_ids'] ? explode(",", $option['tpl_ids']) : false;
+    $columns            = explode(',', $option['columnNames']);
+    $columnCount        = count($columns);
+
+    if (($tpl_ids && !in_array($curTpl, $tpl_ids)) || ($roles && !in_array($curRole, $roles))) return;
+
+    foreach ($columns as $i => $column) {
+	    $column = trim($column);
+	    $trans = new TransAlias($modx); 
+        $columns[$i] = $trans->stripAlias($column, 'lowercase alphanumeric', 'underscore');
+    }
+    $columnNames[$opt_num] = "new Array('".implode("','", $columns)."')";
 }
-
-$headRow = $bodyRow = $elements = $values = array();
-$i = 0;
-foreach ($columns as $column) {
-	$column = trim($column);
-	$trans = new TransAlias($modx); 
-    $columnStripped = $trans->stripAlias($column, 'lowercase alphanumeric', 'underscore');
-    $headRow[] = "this.th('".$columnStripped."', '".((!$i) ? 'first' : '')."')";
-    $bodyRow[] = "this.td(grid".$columnStripped.", '".((!$i) ? 'first' : '')."')";
-    $elements[] = "        var grid".$columnStripped." = new Element('input', {
-            'type': 'text',
-            'class': 'gridVal',
-            'value': values[".$i."],
-            'events': {
-                'keyup': function(){
-                    this.setEditor();
-                    documentDirty = true;
-                }.bind(this)
-            }
-        });";
-    $values[] = "''";
-    $i++;
-}
-
-$headRow = implode(', ', $headRow);
-$bodyRow = implode(', ', $bodyRow);
-$elements = implode("\r\n", $elements);
-$values = implode(", ", $values);
-
+$tvids = 'new Array('.implode(',', $tvids).')';
+$columnNames = 'new Array('.implode(',', $columnNames).')';
 
 $script = '<style type="text/css">'."\r\n";
-$parser = new gridChunkie('@FILE:assets/plugins/multigrid/MultiGrid.template.css');
+$parser = new gridChunkie('@FILE:'.$pluginPath.'MultiGrid.template.css');
 $script .= $parser->Render();
 $script .= '</style>'."\r\n";
 
 $script .= '<script type="text/javascript">'."\r\n";
-$parser = new gridChunkie('@FILE:assets/plugins/multigrid/MultiGrid.template.js');
+$parser = new gridChunkie('@FILE:'.$pluginPath.'MultiGrid.template.js');
 $parser->AddVar('tvids', $tvids);
-$parser->AddVar('headRow', $headRow);
-$parser->AddVar('bodyRow', $bodyRow);
-$parser->AddVar('elements', $elements);
-$parser->AddVar('values', $values);
+$parser->AddVar('columnNames', $columnNames);
+
 $script .= $parser->Render();
 $script .= '</script>'."\r\n";
 

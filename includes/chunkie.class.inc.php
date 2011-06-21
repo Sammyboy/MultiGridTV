@@ -42,8 +42,6 @@ class gridChunkie {
     }
     
     function Render() {
-        global $modx;
-        
         if (!$this->check) {
             $template = $this->phxerror;
         } else {
@@ -59,16 +57,12 @@ class gridChunkie {
         if (isset($this->templates[$tpl])) {
             $template = $this->templates[$tpl];
         } else {
-            if ($modx->getChunk($tpl) != "") {
-                $template = $modx->getChunk($tpl);
-            } else if (substr($tpl, 0, 6) == "@FILE:") {
-                $template = $this->get_file_contents($modx->config['base_path'].substr($tpl, 6));
-            } else if (substr($tpl, 0, 6) == "@CODE:") {
-                $template = substr($tpl, 6);
-            } else if (substr($tpl, 0, 5) == "@FILE") {
+            if (substr($tpl, 0, 5) == "@FILE") {
                 $template = $this->get_file_contents($modx->config['base_path'].substr($tpl, 6));
             } else if (substr($tpl, 0, 5) == "@CODE") {
                 $template = substr($tpl, 6);
+            } else if ($modx->getChunk($tpl) != "") {
+                $template = $modx->getChunk($tpl);
             } else {
                 $template = FALSE;
             }

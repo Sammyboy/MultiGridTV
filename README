@@ -6,15 +6,20 @@ Upload the directory multigrid to assets/plugins and creeate a plugin with the f
 include(MODX_BASE_PATH.'assets/plugins/multigrid/MultiGrid.plugin.php');
 and the event OnDocFormRender.
 
-The plugin configuration can be set with the following line: 
-&tvids=TV IDs;text; &tpl=Template;text; &role=Role;text; &columnNames=Column Names;text; 
+The plugin configuration can be set with the following line:
+&tvids=TV IDs;text; &tpl=Template;text; &role=Role;text; &columnNames=Column Names;text;
+(Optionally "&pluginPath=Plugin path:;text;assets/plugins/multigrid/" can be added)
 
-'TV IDs' is the id (or several comma separated ids) of a textarea template variable, which will be transformed into a grid.
-'Template' is the id (or several comma separated ids) of a template the plugin is executed in.
-'Role' is the id  (or several comma separated ids) of a manager user who can use the plugin.
-'Column Names' contains the comma separated column names of the generated table/grid.
+'TV IDs' is the id (or several || separated ids for each TV) of a textarea template variable, which will be transformed into a grid.
+'Template' is the id (or several comma separated ids) of a template the plugin is executed in. For multiple TVs use || to separate the ids (or lists) for each TV.
+'Role' is the id (or several comma separated ids) of a manager user who can use the plugin. For multiple TVs use || to separate the ids (or lists) for each TV.
+'Column Names' contains the comma separated column names of the generated table/grid. For multiple TVs use || to separate the lists of names for each TV.
 
-If there are serveral grid tvs with different settings, the plugin can be duplicated.
+Alternatively edit the configuration file "MultiGrid.config.php":
+'tv_id' is the id of a textarea template variable, which will be transformed into a grid.
+'tpl_ids' is the id (or several comma separated ids) of a template the plugin is executed in.
+'role' is the id  (or several comma separated ids) of a manager user who can use the plugin.
+'columnNames' contains the comma separated column names of the generated table/grid.
 
 To display the template variable, use the snippet in the package.
 

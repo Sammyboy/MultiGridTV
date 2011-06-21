@@ -1,13 +1,20 @@
 var MultiGrid = new Class({
-    initialize: function(fid){
+    initialize: function(fid,columnNames){
         this.fid = $(fid);
+        this.columnNames = columnNames;
         var hpArr = (this.fid.value && this.fid.value != '[]') ? Json.evaluate(this.fid.value) : [null];
         this.fid.setStyle('display', 'none');
+        /* headRows */
+        var headRow = new Array();
+        for (i=0; i<this.columnNames.length; i++) {
+            headRow[i] = this.th(this.columnNames[i], (i == 0) ? 'first' : '');
+        }
         this.box = new Element('table', {
             'class': 'gridEditor'
-        }).adopt(this.tr([
-            [+headRow+], this.th('', ''), this.th('', '')
-        ]));
+        }).adopt(this.tr(headRow.concat([
+            this.th('', ''), this.th('', '')
+        ])));
+
         this.fid.getParent().adopt(this.box);
         for (var i = 0; i < hpArr.length; i++) 
             this.addItem(hpArr[i]);
@@ -60,12 +67,35 @@ var MultiGrid = new Class({
         else {
             this.box.adopt(rowDiv);
         }
+        
+        /* values */
         if (!values) {
-            values = [
-                [+values+]
-            ];
+            var values = new Array();
+            for (var i=0; i<this.columnNames.length; i++) {
+                values[i] = '';
+            }
+        } else if (values.length < this.columnNames.length) {
+            for (var i=values.length; i<this.columnNames.length; i++) {
+                values[i] = '';
+            }
         }
-[+elements+]
+        /* bodyRows */
+        var bodyRow = new Array();
+        for (var i=0; i<this.columnNames.length; i++) {
+            var grid = new Element('input', {
+                'type': 'text',
+                'class': 'gridVal',
+                'value': values[i],
+                'events': {
+                    'keyup': function(){
+                        this.setEditor();
+                        documentDirty = true;
+                    }.bind(this)
+                }
+            });
+            bodyRow[i] = this.td(grid, (i == 0) ? 'first' : '');
+        }
+
         var bAdd = new Element('input', {
             'type': 'button',
             'value': '+',
@@ -85,9 +115,10 @@ var MultiGrid = new Class({
                 }.bind(this)
             }
         });
-        rowDiv.adopt([
-            [+bodyRow+], this.td(bAdd)
-        ]);
+        
+        rowDiv.adopt(bodyRow.concat([
+            this.td(bAdd)
+        ]));
 		if (this.box.getElements('tr.griditem').length > 1) {
         rowDiv.adopt(this.td(bRemove));
 		} else {
@@ -114,10 +145,11 @@ var MultiGrid = new Class({
 
 window.addEvent('domready', function(){
     var tvids = [+tvids+];
+    var columnNames = [+columnNames+];
     
-    Array.each(tvids, function(tvid){
-    if ($(tvid) != null) {
-        new MultiGrid(tvid);
+    for (var i=0; i<tvids.length; i++) {
+        if ($(tvids[i]) != null) {
+            new MultiGrid(tvids[i], columnNames[i]);
+        }
     }
-    });
 });
