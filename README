@@ -19,12 +19,12 @@ Features:
 ================================================================================
 Installation:
 ================================================================================
-Upload the 'multigrid' folder to 'assets/plugins' and creeate a plugin with the
+Upload the 'multigrid' folder to 'assets/plugins' and create a plugin with the
 following code:
 
   include(MODX_BASE_PATH.'assets/plugins/multigrid/MultiGrid.plugin.php');
 
-and the event "OnDocFormRender".
+and check the event "OnDocFormRender".
 
 ================================================================================
 Configuration:
