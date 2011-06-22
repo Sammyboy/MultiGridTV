@@ -26,7 +26,7 @@ $configs = ($configs == 'yes') ? true : false;
 
 $gridConfigs = array();
 if (isset($tvids)) {
-    $gridConfigs[0]['tvids'] = isset($tvids) ? $tvids : array('1');
+    $gridConfigs[0]['tvids'] = isset($tvids) ? $tvids : '';
     $gridConfigs[0]['tplids'] = isset($tpl) ? $tpl : false;
     $gridConfigs[0]['roles'] = isset($role) ? $role : false;
     $gridConfigs[0]['columnNames'] = isset($columnNames) ? $columnNames : 'key,value';

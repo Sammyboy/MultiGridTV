@@ -70,29 +70,34 @@ is not essential - you can name it i.e. by the name of the template varianble),
 
 DataTable.config.inc.php 
 <?php
-$settings['tvids']            = 5,6; // 'TV IDs'
-$settings['tplids']           = 4,6; // 'Template IDs'
-$settings['roles']            = 1,2; // 'Role'
-$settings['columnNames']      = "Column 1,Column 2,Column 3,Column 4"; // 'Column Names'
+$settings['tvids']       = '5,6'; // 'TV IDs'
+$settings['tplids']      = '4,6'; // 'Template IDs'
+$settings['roles']       = '1,2'; // 'Role'
+$settings['columnNames'] = 'Column 1,Column 2,Column 3,Column 4'; // 'Column Names'
 ?>
 
 Options.config.inc.php 
 <?php
-$settings['tvids']            = 8;
-$settings['tplids']           = 4,6;
-$settings['roles']            = 1,2;
-$settings['columnNames']      = "key,value";
+$settings['tvids']       = '8';
+$settings['tplids']      = '4,6';
+$settings['roles']       = '1,2';
+$settings['columnNames'] = 'key,value';
 ?>
 
 People.config.inc.php 
 <?php
-$settings['tvids']            = 15;
-$settings['tplids']           = 4,6;
-$settings['roles']            = 1,2;
-$settings['columnNames']      = "id,first name,last name";
+$settings['tvids']       = '15';
+$settings['tplids']      = '4,6';
+$settings['roles']       = '1,2';
+$settings['columnNames'] = 'id,first name,last name';
 ?>
 
-place them in the configs folder and enable 'Use Config Files'.
+place them in the 'configs' folder and/or overwrite and rename the 
+*.config.demo.inc.php files in the folder and enable 'Use Config Files'
+
+The only important line in this files is 
+$settings['tvids']       = 'x';
+The other lines will be set to defaults if they are not there.
 
 For one GridTV you could use the plugin configuration.
 
