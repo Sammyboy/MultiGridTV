@@ -1,4 +1,4 @@
-<?php
+<?php 
 ####
 #
 #	Name: Chunkie
@@ -42,8 +42,6 @@ class gridChunkie {
     }
     
     function Render() {
-        global $modx;
-        
         if (!$this->check) {
             $template = $this->phxerror;
         } else {
@@ -66,9 +64,9 @@ class gridChunkie {
             } else if (substr($tpl, 0, 6) == "@CODE:") {
                 $template = substr($tpl, 6);
             } else if (substr($tpl, 0, 5) == "@FILE") {
-                $template = $this->get_file_contents($modx->config['base_path'].substr($tpl, 6));
+                $template = $this->get_file_contents($modx->config['base_path'].substr($tpl, 5));
             } else if (substr($tpl, 0, 5) == "@CODE") {
-                $template = substr($tpl, 6);
+                $template = substr($tpl, 5);
             } else {
                 $template = FALSE;
             }
