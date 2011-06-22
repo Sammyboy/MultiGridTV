@@ -2,9 +2,10 @@
 /**
  * MultiGrid
  * @category 	snippet
- * @version 	1.2-rc1
+ * @version 	1.2
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
+ *              Modifications by sam (sam@gmx-topmail.de)
  *
  * @internal    @description: <strong>1.2</strong> Transform template variables into a table/grid.
  * @internal    @snippet code: return include(MODX_BASE_PATH.'assets/plugins/multigrid/MultiGrid.snippet.php');
@@ -32,7 +33,7 @@ $maskedTags = array('(('=>'[+', '))'=>'+]');
 $outerTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $outerTpl);
 $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTpl);
 
-$brackets = array('{+' => '[+', '+}' => '+]');
+$brackets = array('{+'=>'[+', '+}'=>'+]');
 $outerTpl = str_replace(array_keys($brackets), array_values($brackets), $outerTpl);
 $rowTpl = str_replace(array_keys($brackets), array_values($brackets), $rowTpl);
 
@@ -45,8 +46,8 @@ $tvOutput = json_decode($tvOutput);
 // stop if there is no output
 if (!count($tvOutput))
     return;
-
-// parse the output chunks    
+    
+// parse the output chunks
 if (!class_exists('gridChunkie')) {
     include (MODX_BASE_PATH.'assets/plugins/multigrid/includes/chunkie.class.inc.php');
 }

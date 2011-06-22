@@ -3,7 +3,7 @@
  * MultiGrid
  *
  * @category 	plugin
- * @version 	1.2-rc1
+ * @version 	1.2
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *              Based on a lot of code of Temus (temus3@gmail.com)
