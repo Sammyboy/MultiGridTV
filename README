@@ -57,13 +57,13 @@ Example configuration:
 
 If you want to have
 
-  * 3 GridTVs for the TVs "DataTable", "Options" and "People" with the ids
+  * 3 GridTVs for the TVs 'DataTable', 'Options' and 'People' with the ids
     5,6 / 8 and 15
   * Usable in the templates with the ids 4 and 6
   * Accessable for editors (role 2) and administrators (role 1) only
-  * With column names "Column 1", "Column 2", "Column 3" and "Column 4" for the 
-    first table, "key" and "value" for the second and "id", "first name" and 
-    "last name" for the third table,
+  * With column names 'Column 1', 'Column 2', 'Column 3' and 'Column 4' for the 
+    first table, 'key' and 'value' for the second and 'id', 'first name' and 
+    'last name' for the third table,
 
 you have to write three configuration files (the first part of the filename
 is not essential - you can name it i.e. by the name of the template varianble),
@@ -81,7 +81,7 @@ Options.config.inc.php
 $settings['tvids']       = '8';
 $settings['tplids']      = '4,6';
 $settings['roles']       = '1,2';
-$settings['columnNames'] = 'key,value';
+// $settings['columnNames'] = 'key,value'; // not nessesary (same as default)
 ?>
 
 People.config.inc.php 
@@ -104,7 +104,7 @@ For one GridTV you could use the plugin configuration.
 ================================================================================
 Snippet:
 ================================================================================
-To display these template variable, you have to create the snippet "MultiGrid" 
+To display these template variable, you have to create the snippet 'MultiGrid' 
 with the code
 
 return include(MODX_BASE_PATH.'assets/plugins/multigrid/MultiGrid.snippet.php');

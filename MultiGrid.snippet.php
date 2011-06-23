@@ -21,21 +21,18 @@ $docid = isset($docid) ? $docid : $modx->documentObject['id'];
 $columnNames = isset($columnNames) ? $columnNames : 'key,value';
 $outerTpl = isset($outerTpl) ? $outerTpl : '@CODE:<select name="'.$tvName.'">[+wrapper+]</select>';
 $rowTpl = isset($rowTpl) ? $rowTpl : '@CODE:<option value="[+value+]">[+key+]</option>';
+$pluginPath = isset($pluginPath) ? $pluginPath : 'assets/plugins/multigrid/';
 $config = isset($config) ? $config : '';
 
 // snippet code
 if ($config != '') {
     $settings = array();
-    include MODX_BASE_PATH.$pluginPath.trim($config).'config.inc.php';
+    include MODX_BASE_PATH.$pluginPath.trim($config).'.config.inc.php';
     $columnNames = (isset($settings['columnNames']) && $settings['columnNames'] != '') ? $settings['columnNames'] : $columnNames;
 }
 $maskedTags = array('(('=>'[+', '))'=>'+]');
 $outerTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $outerTpl);
 $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTpl);
-
-$brackets = array('{+'=>'[+', '+}'=>'+]');
-$outerTpl = str_replace(array_keys($brackets), array_values($brackets), $outerTpl);
-$rowTpl = str_replace(array_keys($brackets), array_values($brackets), $rowTpl);
 
 $columns = explode(',', $columnNames);
 $columnCount = count($columns);
