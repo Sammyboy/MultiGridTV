@@ -21,16 +21,16 @@ $docid = isset($docid) ? $docid : $modx->documentObject['id'];
 $columnNames = isset($columnNames) ? $columnNames : 'key,value';
 $outerTpl = isset($outerTpl) ? $outerTpl : '@CODE:<select name="'.$tvName.'">[+wrapper+]</select>';
 $rowTpl = isset($rowTpl) ? $rowTpl : '@CODE:<option value="[+value+]">[+key+]</option>';
-$pluginPath = isset($pluginPath) ? $pluginPath : 'assets/plugins/multigrid/';
+$pluginPath = isset($pluginPath) ? trim($pluginPath, '/').'/' : 'assets/plugins/multigrid/';
 $config = isset($config) ? $config : '';
 
 // snippet code
 if ($config != '') {
     $settings = array();
-    include MODX_BASE_PATH.$pluginPath.trim($config).'.config.inc.php';
+    include (MODX_BASE_PATH.$pluginPath."configs/".trim($config).'.config.inc.php');
     $columnNames = (isset($settings['columnNames']) && $settings['columnNames'] != '') ? $settings['columnNames'] : $columnNames;
 }
-$maskedTags = array('(('=>'[+', '))'=>'+]');
+$maskedTags = array('(('=>'[+', '))'=>'+]', '{+'=>'[+', '+}'=>'+]', '[.'=>'[+', '.]'=>'+]');
 $outerTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $outerTpl);
 $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTpl);
 
@@ -46,7 +46,7 @@ if (!count($tvOutput))
     
 // parse the output chunks
 if (!class_exists('gridChunkie')) {
-    include (MODX_BASE_PATH.'assets/plugins/multigrid/includes/chunkie.class.inc.php');
+    include (MODX_BASE_PATH.$pluginPath.'/includes/chunkie.class.inc.php');
 }
 
 $wrapper = '';

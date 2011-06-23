@@ -113,8 +113,8 @@ and use snippet calls like these:
 
 [!MultiGrid?
 &tvName=`DataTable`
-&outerTpl=`@CODE <ul>((wrapper))</ul>`
-&rowTpl=`@CODE <li>((Column 1)), ((Column 2)), ((Column 3)), ((Column 4))</li>`
+&outerTpl=`@CODE <ul>[.wrapper.]</ul>`
+&rowTpl=`@CODE <li>[.Column 1.], [.Column 2.], [.Column 3.], [.Column 4.]</li>`
 &config=`DataTable`
 !]
 
@@ -123,14 +123,14 @@ and use snippet calls like these:
 [!MultiGrid?
 &tvName=`DataTable`
 &columnNames=`id,firstName,lastName`
-&rowTpl=`@CODE:<option value="((id)) ((firstName)) ((lastName))">((firstName)) ((lastName))</option>`
+&rowTpl=`@CODE:<option value="[.id.] [.firstName.] [.lastName.]">[.firstName.] [.lastName.]</option>`
 !]
 
 For the parameters &outerTpl and &rowTpl there are three different ways to use:
  1. Chunkname
  3. @FILE (or @FILE:) /path/to/filename
  2. @CODE (or @CODE:) string with any HTML code and masked placeholders
-    The placeholders have to be masked by (( and )) 
+    The placeholders have to be masked by [. and .] (same as in eForm)
 
 ================================================================================
 Other notes:

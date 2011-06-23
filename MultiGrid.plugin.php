@@ -21,7 +21,7 @@ if (IN_MANAGER_MODE != 'true') {
 global $content,$default_template;
 
 // retrieve plugin settings
-$pluginPath = isset($pluginPath) ? $pluginPath : 'assets/plugins/multigrid/';
+$pluginPath = isset($pluginPath) ? trim($pluginPath, '/').'/' : 'assets/plugins/multigrid/';
 $configs = ($configs == 'yes') ? true : false;
 
 $gridConfigs = array();
@@ -32,7 +32,7 @@ if (isset($tvids)) {
     $gridConfigs[0]['columnNames'] = isset($columnNames) ? $columnNames : 'key,value';
 }
 if ($configs) {
-    $configFiles = glob(MODX_BASE_PATH.$pluginPath.'/configs/*.config.inc.php');
+    $configFiles = glob(MODX_BASE_PATH.$pluginPath.'configs/*.config.inc.php');
     foreach ($configFiles as $configFile) {
         $settings = array();
         include $configFile;
@@ -61,7 +61,7 @@ $curTpl = isset($_POST['template']) ? $_POST['template'] : isset($content['templ
 $curRole = $_SESSION['mgrRole'];
 $tvids = $columnNames = $columnTitles = $templateVarsIds = array();
 
-// populate javascript variables with tvids, columnNames and columnTitles
+// populate javascript variables with tvids and columnNames
 foreach ($gridConfigs as $gridConfig) {
     $tvids = explode(",", $gridConfig['tvids']);
     $roles = ($gridConfig['roles']) ? explode(",", $gridConfig['roles']) : false;
@@ -76,23 +76,16 @@ foreach ($gridConfigs as $gridConfig) {
     
     foreach ($tvids as $tvid) {
         $templateVarsIds[] = "'tv".$tvid."'";
-        
         $columnName = array();
-        $columnTitle = array();
         foreach ($columns as $i=>$column) {
-            $column = trim($column);
-            $trans = new TransAlias($modx);
-            $columnTitle[$i] = $column;
-            $columnName[$i] = $trans->stripAlias($column, 'lowercase alphanumeric', 'underscore');
+            $columnName[$i] = trim($column);
         }
         $columnNames[] = "new Array('".implode("','", $columnName)."')";
-        $columnTitles[] = "new Array('".implode("','", $columnTitle)."')";
     }
 }
 
 // parse the javascript and css chunks
 $templateVarsIds = 'new Array('.implode(',', $templateVarsIds).')';
-$columnTitles = 'new Array('.implode(',', $columnTitles).')';
 $columnNames = 'new Array('.implode(',', $columnNames).')';
 
 $script = '<style type="text/css">'."\r\n";
@@ -103,7 +96,6 @@ $script .= '</style>'."\r\n";
 $script .= '<script type="text/javascript">'."\r\n";
 $parser = new gridChunkie('@FILE:'.$pluginPath.'MultiGrid.template.js');
 $parser->AddVar('tvids', $templateVarsIds);
-$parser->AddVar('columnTitles', $columnTitles);
 $parser->AddVar('columnNames', $columnNames);
 
 $script .= $parser->Render();

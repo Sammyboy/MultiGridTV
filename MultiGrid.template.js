@@ -1,14 +1,13 @@
 var MultiGrid = new Class({
-    initialize: function(fid,columnNames,columnTitles){
+    initialize: function(fid,columnNames){
         this.fid = $(fid);
         this.columnNames = columnNames;
-        this.columnTitles = columnTitles;
         var hpArr = (this.fid.value && this.fid.value != '[]') ? Json.evaluate(this.fid.value) : [null];
         this.fid.setStyle('display', 'none');
         /* headRows */
         var headRow = new Array();
-        for (i=0; i<this.columnTitles.length; i++) {
-            headRow[i] = this.th(this.columnTitles[i], (i == 0) ? 'first' : '');
+        for (i=0; i<this.columnNames.length; i++) {
+            headRow[i] = this.th(this.columnNames[i], (i == 0) ? 'first' : '');
         }
         this.box = new Element('table', {
             'class': 'gridEditor'
@@ -147,11 +146,10 @@ var MultiGrid = new Class({
 window.addEvent('domready', function(){
     var tvids = [+tvids+];
     var columnNames = [+columnNames+];
-    var columnTitles = [+columnTitles+];
     
     for (var i=0; i<tvids.length; i++) {
         if ($(tvids[i]) != null) {
-            new MultiGrid(tvids[i], columnNames[i], columnTitles[i]);
+            new MultiGrid(tvids[i], columnNames[i]);
         }
     }
 });
