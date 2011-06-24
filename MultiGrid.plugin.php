@@ -53,9 +53,6 @@ if (!count($gridConfigs))
 if (!class_exists('gridChunkie')) {
     include (MODX_BASE_PATH.$pluginPath.'includes/chunkie.class.inc.php');
 }
-if (!class_exists('TransAlias')) {
-    include (MODX_BASE_PATH.'assets/plugins/transalias/transalias.class.php');
-}
 
 $curTpl = isset($_POST['template']) ? $_POST['template'] : isset($content['template']) ? $content['template'] : $default_template;
 $curRole = $_SESSION['mgrRole'];
