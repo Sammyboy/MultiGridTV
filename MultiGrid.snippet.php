@@ -50,12 +50,13 @@ if (!class_exists('gridChunkie')) {
 }
 
 $wrapper = '';
-foreach ($tvOutput as $value) {
+foreach ($tvOutput as $num => $value) {
     $parser = new gridChunkie($rowTpl);
     for ($i = 0; $i < $columnCount; $i++) {
         $parser->AddVar($columns[$i], $value[$i]);
         $parser->AddVar('iteration', $i);
     }
+    $parser->AddVar('num', $num);
     $wrapper .= $parser->Render();
 }
 
