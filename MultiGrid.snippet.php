@@ -30,7 +30,7 @@ if ($config != '') {
     include (MODX_BASE_PATH.$pluginPath."configs/".trim($config).'.config.inc.php');
     $columnNames = (isset($settings['columnNames']) && $settings['columnNames'] != '') ? $settings['columnNames'] : $columnNames;
 }
-$maskedTags = array('(('=>'[+', '))'=>'+]', '{+'=>'[+', '+}'=>'+]', '[.'=>'[+', '.]'=>'+]');
+$maskedTags = array('(('=>'[+', '))'=>'+]', '{+'=>'[+', '+}'=>'+]');
 $outerTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $outerTpl);
 $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTpl);
 
@@ -54,7 +54,6 @@ foreach ($tvOutput as $num => $value) {
     $parser = new gridChunkie($rowTpl);
     for ($i = 0; $i < $columnCount; $i++) {
         $parser->AddVar($columns[$i], $value[$i]);
-        $parser->AddVar('iteration', $i);
     }
     $parser->AddVar('num', $num);
     $wrapper .= $parser->Render();
